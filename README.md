@@ -14,7 +14,7 @@ Also if I have time I will include the files for the persistent volume and the p
 * cluster role: Security file that defines what can a role do, I will start with open rules (not totally recommed since this allows a pod to do whatever it wants) Later I will define it in a more accuerate way to protect the environment
 * role binding: To link the cluster role to a service account.
 * cron job: Here will go most of the logic. For the first iterations I will use directly an image that contains kubectl and link it to a service account to get all permissions.
-
+* persistent volume and volume claim, to save the output obtained from the script.
 
 ## Docker
 On the first tries, I will use directly the following image: bitnami/kubectl:latest. This image already contains kubectl installed and won't need any extra configuration.
