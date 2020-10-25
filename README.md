@@ -58,7 +58,7 @@ $ kubectl create -f volumeClaim.yaml
 ```
 $ kubectl create -f cronjob.yaml
 ```
-8. Create cron job (with overwritten container and persistent volume)
+8. Create cron job (with overwritten container and persistent volume NOT WORKING)
 ```
 $ kubectl create -f cronjob2.yaml
 ```
@@ -106,6 +106,5 @@ getports   */2 * * * *   False     0        49s             64s
 This is not an optimal solution, the next steps to take into account are the following:
 
 * Create Dockerfile using as base the container from bitnami/kubectl to include the script. DONE TO BE TESTED
-* Create persistent volume and persistent volume claim to save the output file (from the script).
 * Check if there is a way to bypass the namespace isolation in Kubernetes. Right now if I include the flag --all-namespaces it won't work.
 
