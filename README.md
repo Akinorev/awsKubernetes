@@ -32,7 +32,7 @@ For the script I will use Bash for the following reasons, is light and almost ev
 
 The script can be found inside the docker folder, it will save the output on a folder called output. The idea behind this is to be able to link this folder to the persistent volume in Kubernetes.
 
-## Actual steps to follow
+## Actual steps to follow (to recreate kubernetes used environment)
 
 1. Create service account
 ```
@@ -46,7 +46,15 @@ $ kubectl create -f clusterRole.yaml
 ```
 $ kubectl create -f roleBinding.yaml
 ```
-4. Create cron job
+5. Create persistent volume
+```
+$ kubectl create -f persistentVolume.yaml
+```
+6. Create volume claim 
+```
+$ kubectl create -f volumeClaim.yaml
+```
+7. Create cron job
 ```
 $ kubectl create -f cronjob.yaml
 ```
