@@ -1,0 +1,23 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: getports2
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: testcron
+          volumes:
+            - name: storage
+              persistentVolumeClaim:
+                claimName: volume-claim
+          containers:
+          - name: getports
+            image: akinorev/kubectl_getports:0.0.1
+            volumeMounts:
+              - mountPath: "/output"
+                name: storage
+            command: ["./getports.sh"]
+          restartPolicy: OnFailure
