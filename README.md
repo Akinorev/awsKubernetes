@@ -54,12 +54,16 @@ $ kubectl create -f persistentVolume.yaml
 ```
 $ kubectl create -f volumeClaim.yaml
 ```
-7. Create cron job
+7. Create cron job (with default bitnami/kubectl container)
 ```
 $ kubectl create -f cronjob.yaml
 ```
+8. Create cron job (with overwritten container and persistent volume)
+```
+$ kubectl create -f cronjob2.yaml
+```
 
-
+### When executed with default bitnami/kubectl container
 For the moment the access to the results needs to be improved. To check the output the following steps are needed:
 
 ```
