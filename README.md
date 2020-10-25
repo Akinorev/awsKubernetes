@@ -15,13 +15,22 @@ Also if I have time I will include the files for the persistent volume and the p
 * role binding: To link the cluster role to a service account.
 * cron job: Here will go most of the logic. For the first iterations I will use directly an image that contains kubectl and link it to a service account to get all permissions.
 
+
 ## Docker
 On the first tries, I will use directly the following image: bitnami/kubectl:latest. This image already contains kubectl installed and won't need any extra configuration.
 
 In following iterations I will create a Dockerfile with this image as base and I will include a script.
 
+Docker container can be downloaded the following way:
+
+```
+$ docker pull akinorev/kubectl_getports:0.0.1
+```
+
 ## Script
 For the script I will use Bash for the following reasons, is light and almost every linux distro includes it.
+
+The script can be found inside the docker folder, it will save the output on a folder called output. The idea behind this is to be able to link this folder to the persistent volume in Kubernetes.
 
 ## Actual steps to follow
 
@@ -60,12 +69,31 @@ $ kubectl logs $pods
 
 ```
 
+### How to modify cron job frequency
+
+First check the actual schedule/frequency of the job
+```
+$ kubectl get cronjob
+NAME       SCHEDULE      SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+getports   */1 * * * *   False     0        <none>          14s
+
+```
+
+The good thing about creating cron jobs in kuberntes is that it can be changed quite easily
+
+```
+$ kubectl patch cronjob getports -p '{"spec":{"schedule": "*/2 * * * *"}}' 
+cronjob.batch/getports patched
+
+$ kubectl get cronjob
+NAME       SCHEDULE      SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+getports   */2 * * * *   False     0        49s             64s
+```
 ## Next steps
 
 This is not an optimal solution, the next steps to take into account are the following:
 
-* Create simple bash script to get the ports and save output on file.
-* Create Dockerfile using as base the container from bitnami/kubectl to include the script.
-* Create persistent volume and persistent volume claim to save the output file.
+* Create Dockerfile using as base the container from bitnami/kubectl to include the script. DONE TO BE TESTED
+* Create persistent volume and persistent volume claim to save the output file (from the script).
 * Check if there is a way to bypass the namespace isolation in Kubernetes. Right now if I include the flag --all-namespaces it won't work.
 
